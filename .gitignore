@@ -1,0 +1,8 @@
+# Python environment files
+/PyEnviorment
+# Temporary ignore files
+Main.py
+Storage.py
+
+# Test Folder
+/TestFiles
