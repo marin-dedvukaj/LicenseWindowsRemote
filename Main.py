@@ -8,15 +8,19 @@ class LicenseManagerApp:
         self.master.title("License Manager")
         self.storage = LicenseStorage("licenses")
         self.projects = self.storage.listProjects()
-        print("Available Projects:", self.projects)
         self.main_frame = tk.Frame(master)
-        self.main_frame.pack(padx=50, pady=50)
-
-        tk.Button(self.main_frame, text="Get license", width=20, command=self.open_get_license).pack(pady=5)
-        tk.Button(self.main_frame, text="Add License", width=20, command=self.open_add_license).pack(pady=5)
-        tk.Button(self.main_frame, text="Create new project", width=20, command=self.open_create_project).pack(pady=5)
+        self.main_frame.pack(padx=50, pady=30, expand=True)
+        button_frame = tk.Frame(self.main_frame)
+        button_frame.pack(expand=True)
+        
+        tk.Button(button_frame, text="Get license", width=20, command=self.open_get_license).pack(pady=5)
+        tk.Button(button_frame, text="Add License", width=20, command=self.open_add_license).pack(pady=5)
+        tk.Button(button_frame, text="Create new project", width=20, command=self.open_create_project).pack(pady=5)
 
         self.center_window(self.master, 400, 300)
+        self.master.grid_rowconfigure(0, weight=1)
+        self.master.grid_columnconfigure(0, weight=1)
+        self.main_frame.grid(row=0, column=0, sticky="nsew")
 
     def center_window(self, win, width, height):
         win.update_idletasks()
