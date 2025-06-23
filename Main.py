@@ -16,6 +16,16 @@ class LicenseManagerApp:
         tk.Button(self.main_frame, text="Add License", width=20, command=self.open_add_license).pack(pady=5)
         tk.Button(self.main_frame, text="Create new project", width=20, command=self.open_create_project).pack(pady=5)
 
+        self.center_window(self.master, 400, 300)
+
+    def center_window(self, win, width, height):
+        win.update_idletasks()
+        screen_width = win.winfo_screenwidth()
+        screen_height = win.winfo_screenheight()
+        x = (screen_width // 2) - (width // 2)
+        y = (screen_height // 2) - (height // 2)
+        win.geometry(f"{width}x{height}+{x}+{y}")
+
     def refresh_projects(self):
         self.projects = self.storage.listProjects()
     
@@ -23,13 +33,12 @@ class LicenseManagerApp:
     def open_get_license(self):
         self.refresh_projects()
         win = tk.Toplevel(self.master)
-    
         win.title("Get License")
+        self.center_window(win, 350, 250)
         tk.Label(win, text="Select Project:").pack(pady=5)
         project_var = tk.StringVar(win)
         if self.projects:
             project_var.set(self.projects[0])
-        # Ensure at least one value is passed to OptionMenu
         dropdown_values = self.projects if self.projects else ["No Projects Available"]
         dropdown = tk.OptionMenu(win, project_var, *dropdown_values)
         dropdown.pack(pady=5)
@@ -38,7 +47,6 @@ class LicenseManagerApp:
             project = project_var.get()
             license_key = self.storage.getLicense(project)
             license_entry = tk.Entry(win, width=40)
-            # Ensure license_key is a string and handle None
             if license_key is None:
                 license_entry.insert(0, "No license found")
             else:
@@ -53,13 +61,11 @@ class LicenseManagerApp:
                 win.destroy()
         
             tk.Button(win, text="Done", command=done_action).pack(pady=5)
-            # Make the messagebox non-blocking by using after() to check status later
             def ask_status():
                 result = messagebox.askyesno("License Status", "Did the license work?", parent=win)
                 status = "Used" if result else "Expired"
                 if license_key is not None:
                     self.storage.changeStatus(project, license_key, status)
-                # Optionally, you can close the window or disable further prompts here
 
         tk.Button(win, text="Fetch License", command=fetch_license).pack(pady=10)
 
@@ -67,6 +73,7 @@ class LicenseManagerApp:
         self.refresh_projects()
         win = tk.Toplevel(self.master)
         win.title("Add License")
+        self.center_window(win, 350, 220)
         tk.Label(win, text="Select Project:").pack(pady=5)
         project_var = tk.StringVar(win)
         if self.projects:
@@ -89,6 +96,7 @@ class LicenseManagerApp:
     def open_create_project(self):
         win = tk.Toplevel(self.master)
         win.title("Create New Project")
+        self.center_window(win, 350, 180)
         tk.Label(win, text="Project Name:").pack(pady=5)
         project_entry = tk.Entry(win, width=30)
         project_entry.pack(pady=5)
