@@ -1,8 +1,6 @@
 # Python environment files
 /PyEnviorment
-# Temporary ignore files
-Main.py
-Storage.py
-
-# Test Folder
+/__pycache__
+# Test Folders 
 /TestFiles
+/licenses
